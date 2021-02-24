@@ -69,8 +69,7 @@ public class ProductServlet extends HttpServlet {
             resp.sendRedirect(getServletContext().getContextPath() + "/products");
 
         } else if (req.getPathInfo().equals("/new")) {
-            Product product = new Product(null, "", "", null);
-            req.setAttribute("product", product);
+            req.setAttribute("product", new Product());
             getServletContext().getRequestDispatcher("/WEB-INF/product_form.jsp").forward(req, resp);
         }
     }
