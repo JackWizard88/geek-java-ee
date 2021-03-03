@@ -25,10 +25,16 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
+    <c:url value="/products/" var="productsUrl">
+    <c:url value="/users/" var="usersUrl">
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+            <li class="nav-item inactive">
+                <a class="nav-link" href="${productsUrl}">Products</a>
+            </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">List</a>
+            <a class="nav-link" href="${usersUrl}">Users</a>
             </li>
         </ul>
     </div>

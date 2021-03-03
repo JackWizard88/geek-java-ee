@@ -8,7 +8,6 @@ import ru.geekbrains.krylov.entities.User;
 import ru.geekbrains.krylov.repositories.CategoriesRepository;
 import ru.geekbrains.krylov.repositories.ProductRepository;
 import ru.geekbrains.krylov.repositories.UserRepository;
-import ru.geekbrains.krylov.servlets.ProductServlet;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
