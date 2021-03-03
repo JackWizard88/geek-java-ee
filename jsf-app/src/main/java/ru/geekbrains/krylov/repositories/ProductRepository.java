@@ -2,54 +2,71 @@ package ru.geekbrains.krylov.repositories;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 import ru.geekbrains.krylov.entities.Product;
+import ru.geekbrains.krylov.utils.FactoryClass;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Named
 @ApplicationScoped
-public class ProductRepository implements Repository <Product> {
+public class ProductRepository implements Repository<Product> {
 
-    private final Map<Long, Product> productMap = new ConcurrentHashMap<>();
-    private final AtomicLong identity = new AtomicLong(0);
+//    @PersistenceContext(unitName = "ds")
+//    private EntityManager em;
+
     private final static Logger logger = LogManager.getLogger(ProductRepository.class);
-
-    @PostConstruct
-    public void init() {
-        this.saveOrUpdate(new Product(null, "Product  1","Description of product 1", 100.00f));
-        this.saveOrUpdate(new Product(null, "Product  2","Description of product 2", 200.00f));
-        this.saveOrUpdate(new Product(null, "Product  3","Description of product 3", 300.00f));
-        logger.info("ProductRepository initialized.. added " + this.findAll().size() + " units");
-    }
 
     @Override
     public List<Product> findAll() {
-        return new ArrayList<>(productMap.values());
+        List<Product> products;
+        Session session = FactoryClass.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        products = session.createNamedQuery("findAllProducts", Product.class).getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return products;
+//        return em.createNamedQuery("findAll", Product.class).getResultList();
     }
+
 
     @Override
     public Product findById(Long id) {
-        return productMap.get(id);
+        return FactoryClass.getSessionFactory().getCurrentSession().get(Product.class, id);
+//        return em.find(Product.class, id);
     }
 
     @Override
     public void saveOrUpdate(Product product) {
+
+        Session session = FactoryClass.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         if (product.getId() == null) {
-            Long id = identity.incrementAndGet();
-            product.setId(id);
+            session.save(product);
+//            em.persist(product);
         }
-        productMap.put(product.getId(), product);
+        session.merge(product);
+        session.getTransaction().commit();
+        session.close();
+//        em.merge(product);
     }
 
     @Override
-    public Product deleteById(Long id) {
-        return productMap.remove(id);
+    @Transactional
+    public void deleteById(Long id) {
+//        em.createNamedQuery("deleteById").setParameter("id", id).executeUpdate();
+        Session session = FactoryClass.getSessionFactory().getCurrentSession();
+        try {
+            session.beginTransaction();
+            session.delete(findById(id));
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
     }
 }

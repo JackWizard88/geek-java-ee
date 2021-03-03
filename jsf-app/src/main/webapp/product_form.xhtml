@@ -2,7 +2,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <h:head>
     <!-- Required meta tags -->
@@ -18,7 +19,7 @@
 
 <h:body>
 
-    <ui:include src="static/navbar.xhtml"></ui:include>
+    <ui:include src="WEB-INF/static/navbar.xhtml"></ui:include>
 
     <div class="container">
         <div class="row py-2">
@@ -30,6 +31,14 @@
                         <h:inputText styleClass="form-control" id="title"
                                      value="#{productController.product.title}"
                                      placeholder="Enter title"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <h:selectOneMenu  value="#{productController.product.category.id}" styleClass="form-control" id="category">
+                            <c:forEach var="category" items="#{productController.allCategories}">
+                                <f:selectItem itemValue = "#{category.id}" itemLabel = "#{category.title}" />
+                            </c:forEach>
+                        </h:selectOneMenu>
                     </div>
                     <div class="form-group">
                         <label>Description</label>
@@ -50,9 +59,9 @@
         </div>
     </div>
 
-    <ui:include src="static/jQueryScript.html"/>
-    <ui:include src="static/popperScript.html"/>
-    <ui:include src="static/bootstrapScript.html"/>
+    <ui:include src="WEB-INF/static/jQueryScript.html"/>
+    <ui:include src="WEB-INF/static/popperScript.html"/>
+    <ui:include src="WEB-INF/static/bootstrapScript.html"/>
 
 </h:body>
 

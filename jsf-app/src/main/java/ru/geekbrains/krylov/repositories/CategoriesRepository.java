@@ -1,43 +1,68 @@
 package ru.geekbrains.krylov.repositories;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 import ru.geekbrains.krylov.entities.Category;
+import ru.geekbrains.krylov.entities.Product;
+import ru.geekbrains.krylov.utils.FactoryClass;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
+
 
 @Named
 @ApplicationScoped
-public class CategoriesRepository implements Repository <Category> {
+public class CategoriesRepository implements Repository<Category> {
 
-    private final Map<Long, Category> categoryMap = new ConcurrentHashMap<>();
-    private final AtomicLong identity = new AtomicLong(0);
+    private final static Logger logger = LogManager.getLogger(CategoriesRepository.class);
 
     @Override
     public List<Category> findAll() {
-        return new ArrayList<>(categoryMap.values());
+        List<Category> categories;
+        Session session = FactoryClass.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        categories = session.createNamedQuery("findAllCategories", Category.class).getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return categories;
     }
 
     @Override
     public Category findById(Long id) {
-        return categoryMap.get(id);
+        return FactoryClass.getSessionFactory().getCurrentSession().get(Category.class, id);
     }
 
     @Override
     public void saveOrUpdate(Category category) {
-        if (category.getId() == null) {
-            Long id = identity.incrementAndGet();
-            category.setId(id);
+        Session session = FactoryClass.getSessionFactory().getCurrentSession();
+        try {
+            session.beginTransaction();
+            if (category.getId() == null) {
+                session.save(category);
+            }
+            session.update(category);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
-        categoryMap.put(category.getId(), category);
+
     }
 
     @Override
-    public Category deleteById(Long id) {
-        return categoryMap.remove(id);
+    public void deleteById(Long id) {
+        Session session = FactoryClass.getSessionFactory().getCurrentSession();
+        try {
+            session.beginTransaction();
+            session.delete(findById(id));
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
     }
 }

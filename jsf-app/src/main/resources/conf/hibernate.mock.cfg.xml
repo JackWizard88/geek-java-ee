@@ -1,0 +1,21 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost/javaee_shop?serverTimezone=Europe/Moscow</property>
+        <property name="connection.username">USERNAME</property>
+        <property name="connection.password">PASSWORD</property>
+        <property name="connection.pool_size">2</property>
+        <property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="show_sql">true</property>
+        <property name="current_session_context_class">thread</property>
+
+        <mapping class="ru.geekbrains.krylov.entities.Product"/>
+        <mapping class="ru.geekbrains.krylov.entities.OrderItem"/>
+        <mapping class="ru.geekbrains.krylov.entities.Category"/>
+        <mapping class="ru.geekbrains.krylov.entities.User"/>
+    </session-factory>
+</hibernate-configuration>
