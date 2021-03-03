@@ -6,6 +6,7 @@ import ru.geekbrains.krylov.repositories.CategoriesRepository;
 import ru.geekbrains.krylov.repositories.ProductRepository;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -25,6 +26,13 @@ public class ProductController implements Serializable {
     private CartController cartController;
 
     private Product product;
+    private List<Product> productList;
+    private List<Category> categoryList;
+
+    public void preloadData(ComponentSystemEvent componentSystemEvent) {
+        productList = productRepository.findAll();
+        categoryList = categoriesRepository.findAll();
+    }
 
     public Product getProduct() {
         return product;
@@ -40,11 +48,11 @@ public class ProductController implements Serializable {
     }
 
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productList;
     }
 
     public List<Category> getAllCategories() {
-        return categoriesRepository.findAll();
+        return categoryList;
     }
 
     public String editProduct(Product product) {

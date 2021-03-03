@@ -18,6 +18,8 @@
 <h:body>
 
     <ui:include src="WEB-INF/static/navbar.xhtml"/>
+    
+    <f:event listener="#{productController.preloadData}" type="preRenderView"></f:event>
 
     <div class="container">
         <div class="row py-2">
