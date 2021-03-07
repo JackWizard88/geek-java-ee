@@ -1,5 +1,7 @@
 package ru.geekbrains.krylov.controllers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.geekbrains.krylov.entities.Category;
 import ru.geekbrains.krylov.entities.Product;
 import ru.geekbrains.krylov.repositories.CategoriesRepository;
@@ -15,6 +17,9 @@ import java.util.List;
 @Named
 @SessionScoped
 public class ProductController implements Serializable {
+
+    private final static Logger logger = LogManager.getLogger(ProductController.class);
+
 
     @Inject
     private ProductRepository productRepository;
@@ -44,6 +49,7 @@ public class ProductController implements Serializable {
 
     public String createProduct() {
         this.product = new Product();
+        product.setCategory(new Category());
         return "/product_form.xhtml?faces-redirect=true";
     }
 
@@ -66,7 +72,6 @@ public class ProductController implements Serializable {
 
     public String saveProduct() {
         productRepository.saveOrUpdate(product);
-        // TODO: 03.03.2021 разобраться с сохранением категорий
         return "/product.xhtml?faces-redirect=true";
     }
 }

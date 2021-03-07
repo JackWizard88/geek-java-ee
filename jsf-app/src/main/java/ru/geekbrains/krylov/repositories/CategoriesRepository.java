@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import ru.geekbrains.krylov.entities.Category;
-import ru.geekbrains.krylov.entities.Product;
 import ru.geekbrains.krylov.utils.FactoryClass;
 
 import javax.enterprise.context.ApplicationScoped;
