@@ -17,7 +17,9 @@
 
 <h:body>
 
-    <ui:include src="static/navbar.xhtml"/>
+    <ui:include src="WEB-INF/static/navbar.xhtml"/>
+    
+    <f:event listener="#{productController.preloadData}" type="preRenderView"></f:event>
 
     <div class="container">
         <div class="row py-2">
@@ -37,6 +39,10 @@
                         <h:column>
                             <f:facet name="header">Title</f:facet>
                             #{product.title}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Category</f:facet>
+                            #{product.category.title}
                         </h:column>
                         <h:column>
                             <f:facet name="header">Description</f:facet>
@@ -66,9 +72,9 @@
         </div>
     </div>
 
-    <ui:include src="static/jQueryScript.html"/>
-    <ui:include src="static/popperScript.html"/>
-    <ui:include src="static/bootstrapScript.html"/>
+    <ui:include src="WEB-INF/static/jQueryScript.html"/>
+    <ui:include src="WEB-INF/static/popperScript.html"/>
+    <ui:include src="WEB-INF/static/bootstrapScript.html"/>
 </h:body>
 
 </html>

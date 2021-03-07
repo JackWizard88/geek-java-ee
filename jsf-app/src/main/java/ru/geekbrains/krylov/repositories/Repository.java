@@ -10,5 +10,5 @@ public interface Repository <T> {
 
     void saveOrUpdate(T t);
 
-    T deleteById(Long id);
+    void deleteById(Long id);
 }
