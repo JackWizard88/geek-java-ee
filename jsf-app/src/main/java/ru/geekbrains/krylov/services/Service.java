@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface Service<T> {
 
-    public List<T> findAll();
+    List<T> findAll();
 
-    public T findById(Long id);
+    T findById(Long id);
 
-    public void saveOrUpdate(T t);
+    void saveOrUpdate(T t);
 
-    public void deleteById(Long id);
+    void deleteById(Long id);
 }

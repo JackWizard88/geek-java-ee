@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="first-web-app" />
         <module name="jsf-app" />
+        <module name="common" />
       </profile>
     </annotationProcessing>
   </component>

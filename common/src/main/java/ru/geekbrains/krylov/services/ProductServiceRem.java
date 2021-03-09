@@ -2,11 +2,11 @@ package ru.geekbrains.krylov.services;
 
 import ru.geekbrains.krylov.dto.ProductDTO;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
 import java.util.List;
 
-@Local
-public interface ProductService {
+@Remote
+public interface ProductServiceRem {
 
     List<ProductDTO> findAll();
 

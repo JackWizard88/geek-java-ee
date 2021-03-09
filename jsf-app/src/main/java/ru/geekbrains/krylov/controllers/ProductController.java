@@ -6,7 +6,7 @@ import ru.geekbrains.krylov.dto.ProductDTO;
 import ru.geekbrains.krylov.entities.Category;
 import ru.geekbrains.krylov.repositories.CategoriesRepository;
 import ru.geekbrains.krylov.services.ProductService;
-import ru.geekbrains.krylov.services.Service;
+import ru.geekbrains.krylov.services.ProductServiceImpl;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
