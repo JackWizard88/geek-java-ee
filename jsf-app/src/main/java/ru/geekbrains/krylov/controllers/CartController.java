@@ -1,54 +1,34 @@
 package ru.geekbrains.krylov.controllers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.geekbrains.krylov.entities.OrderItem;
-import ru.geekbrains.krylov.entities.Product;
+import ru.geekbrains.krylov.services.CartService;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Named
 @SessionScoped
 public class CartController implements Serializable {
 
-    private Map<Product, OrderItem> orderItemMap = new HashMap<>();
-    private List<OrderItem> orderItems;
+    private final static Logger logger = LogManager.getLogger(CartController.class);
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
-    }
+    @EJB
+    private CartService cartService;
 
     public List<OrderItem> getCartContent() {
-        return new ArrayList<>(orderItemMap.values());
+        return cartService.getCartContent();
     }
 
-    public void addToCart(Product product) {
-        OrderItem orderItem = orderItemMap.get(product);
+    public void addToCart(Long id) {
+        cartService.addToCart(id);
+    }
 
-        if (orderItem == null) {
-            OrderItem o = new OrderItem();
-            o.setProduct(product);
-            o.setQuantity(1L);
-            o.calcOrderItemPrice();
-            orderItemMap.put(product, o);
-        } else orderItem.incrementQuantity();
-
-     }
-
-    public void removeFromCart(Product product) {
-        OrderItem orderItem = orderItemMap.get(product);
-        orderItem.decrementQuantity();
-
-        if (orderItem.getQuantity() == 0) {
-            orderItemMap.remove(product);
-        }
+    public void removeFromCart(Long id) {
+        cartService.removeFromCart(id);
     }
 }

@@ -2,11 +2,13 @@ package ru.geekbrains.krylov.controllers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.geekbrains.krylov.dto.ProductDTO;
 import ru.geekbrains.krylov.entities.Category;
-import ru.geekbrains.krylov.entities.Product;
 import ru.geekbrains.krylov.repositories.CategoriesRepository;
-import ru.geekbrains.krylov.repositories.ProductRepository;
+import ru.geekbrains.krylov.services.ProductService;
+import ru.geekbrains.krylov.services.Service;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
@@ -20,40 +22,38 @@ public class ProductController implements Serializable {
 
     private final static Logger logger = LogManager.getLogger(ProductController.class);
 
+    @EJB
+    private ProductService productService;
 
-    @Inject
-    private ProductRepository productRepository;
-
-    @Inject
-    private CategoriesRepository categoriesRepository;
+    @EJB
+    private CategoriesRepository categoriesRepositoryImpl;
 
     @Inject
     private CartController cartController;
 
-    private Product product;
-    private List<Product> productList;
+    private ProductDTO product;
+    private List<ProductDTO> productList;
     private List<Category> categoryList;
 
     public void preloadData(ComponentSystemEvent componentSystemEvent) {
-        productList = productRepository.findAll();
-        categoryList = categoriesRepository.findAll();
+        productList = productService.findAll();
+        categoryList = categoriesRepositoryImpl.findAll();
     }
 
-    public Product getProduct() {
+    public ProductDTO getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(ProductDTO product) {
         this.product = product;
     }
 
     public String createProduct() {
-        this.product = new Product();
-        product.setCategory(new Category());
+        this.product = new ProductDTO();
         return "/product_form.xhtml?faces-redirect=true";
     }
 
-    public List<Product> getAllProducts() {
+    public List<ProductDTO> getAllProducts() {
         return productList;
     }
 
@@ -61,17 +61,17 @@ public class ProductController implements Serializable {
         return categoryList;
     }
 
-    public String editProduct(Product product) {
+    public String editProduct(ProductDTO product) {
         this.product = product;
         return "/product_form.xhtml?faces-redirect=true";
     }
 
-    public void deleteProduct(Product product) {
-        productRepository.deleteById(product.getId());
+    public void deleteProduct(ProductDTO product) {
+        productService.deleteById(product.getId());
     }
 
     public String saveProduct() {
-        productRepository.saveOrUpdate(product);
+        productService.saveOrUpdate(product);
         return "/product.xhtml?faces-redirect=true";
     }
 }

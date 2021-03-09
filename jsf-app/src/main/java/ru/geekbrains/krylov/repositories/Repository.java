@@ -1,7 +1,9 @@
 package ru.geekbrains.krylov.repositories;
 
+import javax.ejb.Local;
 import java.util.List;
 
+@Local
 public interface Repository <T> {
 
     List<T> findAll();
@@ -11,4 +13,6 @@ public interface Repository <T> {
     void saveOrUpdate(T t);
 
     void deleteById(Long id);
+
+    public T getReference(Long id);
 }

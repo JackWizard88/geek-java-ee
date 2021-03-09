@@ -34,7 +34,7 @@
                     </div>
                     <div class="form-group">
                         <label for="category">Category</label>
-                        <h:selectOneListbox size="1" value="#{productController.product.category.id}" styleClass="form-control" id="category">
+                        <h:selectOneListbox size="1" value="#{productController.product.categoryId}" styleClass="form-control" id="category">
                             <c:forEach var="category" items="#{productController.allCategories}">
                                 <f:selectItem itemValue = "#{category.id}" itemLabel = "#{category.title}" />
                             </c:forEach>
