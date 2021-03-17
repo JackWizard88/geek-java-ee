@@ -2,6 +2,7 @@ package ru.geekbrains.krylov.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.geekbrains.krylov.dto.ProductDTO;
 
 import javax.persistence.*;
 
@@ -10,7 +11,6 @@ import javax.persistence.*;
 @Table(name = "products")
 @NamedQueries({
         @NamedQuery(name = "findAllProducts", query = "from Product"),
-        @NamedQuery(name = "countAll", query = "select count(*) from Product"),
         @NamedQuery(name = "deleteById", query = "delete from Product p where p.id = :id")
 })
 @Data
@@ -34,10 +34,15 @@ public class Product {
     @Column
     private Float price;
 
-    public Product(String title, Category category, String description, Float price) {
+    public Product(Long id, String title, String description, Float price) {
+        this.id = id;
         this.title = title;
-        this.category = category;
         this.description = description;
         this.price = price;
+    }
+
+    public Product(ProductDTO product, Category category) {
+        this(product.getId(), product.getTitle(), product.getDescription(), product.getPrice());
+        this.category = category;
     }
 }

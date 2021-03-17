@@ -46,11 +46,11 @@
                             <f:facet name="header">Actions</f:facet>
 
                             <h:commandButton value="+" styleClass="btn btn-success mr-2"
-                                             action="#{cartController.addToCart(cart.product)}">
+                                             action="#{cartController.addToCart(cart.product.id)}">
                                 <f:ajax event="click" render="orderItemForm"/>
                             </h:commandButton>
                             <h:commandButton value="-" styleClass="btn btn-danger"
-                                             action="#{cartController.removeFromCart(cart.product)}">
+                                             action="#{cartController.removeFromCart(cart.product.id)}">
                             <f:ajax event="click" render="orderItemForm"/>
                             </h:commandButton>
                         </h:column>
