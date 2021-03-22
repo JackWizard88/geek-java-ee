@@ -35,6 +35,22 @@ public class ProductRepositoryImpl implements ProductRepository {
         return product;
     }
 
+    public Product findByTitle(String productTitle) {
+        Session session = FactoryClass.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        List<Product> products;
+        products = session.createNamedQuery("findAllProducts", Product.class).getResultList();
+        session.getTransaction().commit();
+        session.close();
+
+        for (Product p : products) {
+            if (p.getTitle().equals(productTitle)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void saveOrUpdate(Product product) {
 

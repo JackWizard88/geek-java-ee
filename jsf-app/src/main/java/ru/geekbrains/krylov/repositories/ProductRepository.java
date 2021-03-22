@@ -11,8 +11,9 @@ public interface ProductRepository {
 
     List<Product> findAll();
 
-    @TransactionAttribute
     Product findById(Long id);
+
+    Product findByTitle(String productTitle);
 
     void saveOrUpdate(Product product);
 
