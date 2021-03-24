@@ -6,8 +6,8 @@ import ru.geekbrains.krylov.dto.UserDTO;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -33,7 +33,7 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles;
+    private List<Role> roles;
 
     public User(Long id, String login, String password) {
         this.id = id;
@@ -45,7 +45,7 @@ public class User implements Serializable {
         this.id = user.getId();
         this.login = user.getLogin();
         this.password = user.getPassword();
-        this.roles = new HashSet<>();
-        user.getRoles().forEach(r -> roles.add(new ru.geekbrains.krylov.entities.Role(r)));
+        this.roles = new ArrayList<>();
+        user.getRoles().forEach(r -> roles.add(new Role(r)));
     }
 }

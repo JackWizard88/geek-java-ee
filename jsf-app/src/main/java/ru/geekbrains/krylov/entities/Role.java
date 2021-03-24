@@ -1,6 +1,7 @@
 package ru.geekbrains.krylov.entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.geekbrains.krylov.dto.RoleDTO;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "roles")
 public class Role implements Serializable {
 
@@ -24,10 +26,6 @@ public class Role implements Serializable {
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
-
-    public Role() {
-
-    }
 
     public Role(@NotNull String name) {
         this.name = name;
