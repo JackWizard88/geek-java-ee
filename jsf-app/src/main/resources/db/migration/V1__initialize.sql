@@ -42,7 +42,7 @@ create table javaee_shop.orderItems
 create table javaee_shop.users
 (
     id       bigint primary key AUTO_INCREMENT,
-    username varchar(30) not null,
+    login varchar(30) not null,
     password varchar(80) not null
 );
 
@@ -62,10 +62,10 @@ CREATE TABLE javaee_shop.users_roles
 );
 
 insert into javaee_shop.roles (name)
-values ('ROLE_USER'),
-       ('ROLE_ADMIN');
+values ('USER'),
+       ('ADMIN');
 
-insert into javaee_shop.users (username, password)
+insert into javaee_shop.users (login, password)
 values ('admin', 'admin'),
        ('user', 'user');
 
