@@ -12,6 +12,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,6 +21,9 @@ import java.util.List;
 public class ProductController implements Serializable {
 
     private final static Logger logger = LogManager.getLogger(ProductController.class);
+
+    @Inject
+    private HttpSession httpSession;
 
     @EJB
     private ProductService productService;
@@ -72,5 +76,10 @@ public class ProductController implements Serializable {
     public String saveProduct() {
         productService.saveOrUpdate(product);
         return "/product.xhtml?faces-redirect=true";
+    }
+
+    public String logout() {
+        httpSession.invalidate();
+        return "/login.xhtml?faces-redirect=true";
     }
 }
