@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Data
 @Stateless
-public class ProductServiceImpl implements ProductService, ProductServiceRem, ProductServiceRest {
+public class ProductServiceImpl implements ProductService, ProductServiceRest {
 
     @EJB
     private ProductRepository productRepository;

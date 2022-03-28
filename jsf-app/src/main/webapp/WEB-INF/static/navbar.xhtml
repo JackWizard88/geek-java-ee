@@ -1,18 +1,25 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" xmlns:h="http://java.sun.com/jsf/html">
     <a class="navbar-brand" href="#">EShop</a>
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#{request.contextPath}/product.xhtml">Products</a>
+                <h:link styleClass="nav-link" outcome="/product.xhtml" value="Products"/>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#{request.contextPath}/cart.xhtml">Cart</a>
+                <h:link styleClass="nav-link" outcome="/cart.xhtml" value="Cart"/>
+            </li>
+            <li class="nav-item active">
+                <h:link rendered="#{request.isUserInRole('ADMIN')}" styleClass="nav-link" outcome="/admin/user.xhtml" value="Users"/>
+            </li>
+            <li class="nav-item active">
+                <h:link rendered="#{request.isUserInRole('ADMIN')}" styleClass="nav-link" outcome="/admin/role.xhtml" value="Roles"/>
+            </li>
+            <li class="nav-item">
+                <h:form rendered="#{request.userPrincipal != null}" >
+                    <h:commandLink styleClass="nav-link" action="#{productController.logout()}" value="Logout"/>
+                </h:form>
+                <h:link styleClass="nav-link" rendered="#{request.userPrincipal == null}" value="Login" outcome="/login"/>
             </li>
         </ul>
     </div>
